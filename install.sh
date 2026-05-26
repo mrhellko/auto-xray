@@ -7,6 +7,8 @@ EMAIL="${EMAIL:-admin@${SITE_DOMAIN}}"
 XRAY_PORT="${XRAY_PORT:-443}"
 FALLBACK_PORT="${FALLBACK_PORT:-7443}"
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 if ! command -v docker >/dev/null 2>&1; then
   echo "docker not found"
   exit 1
@@ -114,6 +116,18 @@ sed \
   -e "s|__FALLBACK_PORT__|${FALLBACK_PORT}|g" \
   -e "s|__SITE_DOMAIN__|${SITE_DOMAIN}|g" \
   nginx.template.conf > nginx.conf
+
+chmod +x renew-cert.sh
+
+echo
+echo "Installing automatic certificate renewal cron..."
+
+CRON_JOB="0 4 * * * ${SCRIPT_DIR}/renew-cert.sh >/var/log/auto-xray-renew.log 2>&1"
+
+(
+  crontab -l 2>/dev/null | grep -v 'renew-cert.sh' || true
+  echo "${CRON_JOB}"
+) | crontab -
 
 echo
 echo "Starting containers..."
