@@ -1,6 +1,6 @@
 services:
   xray:
-    image: ghcr.io/xtls/xray-core:latest
+    image: ghcr.io/xtls/xray-core:25.5.16
     container_name: xray_vpn
     restart: unless-stopped
     network_mode: host
