@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env bash
+#!/usr/bin/env bash
 set -euo pipefail
 
 SITE_DOMAIN="${SITE_DOMAIN:-yourdomain.ru}"
@@ -20,6 +20,13 @@ fi
 if ! command -v curl >/dev/null 2>&1; then
   echo "curl not found"
   exit 1
+fi
+
+if command -v ss >/dev/null 2>&1; then
+  if ss -ltn '( sport = :80 )' | grep -q ':80'; then
+    echo "port 80 is already in use"
+    exit 1
+  fi
 fi
 
 if docker compose version >/dev/null 2>&1; then
@@ -45,9 +52,9 @@ echo
 
 echo "Generating UUID and REALITY keys..."
 
-UUID="$(docker run --rm ghcr.io/xtls/xray-core uuid)"
+UUID="$(docker run --rm ghcr.io/xtls/xray-core:25.5.16 uuid)"
 
-KEYS="$(docker run --rm ghcr.io/xtls/xray-core x25519)"
+KEYS="$(docker run --rm ghcr.io/xtls/xray-core:25.5.16 x25519)"
 
 PRIVATE_KEY="$(echo "${KEYS}" | awk -F': ' '/Private key/ {print $2}')"
 PUBLIC_KEY="$(echo "${KEYS}" | awk -F': ' '/Public key/ {print $2}')"
