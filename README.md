@@ -1,6 +1,6 @@
 # auto-xray
 
-Автоматическая установка Xray VLESS REALITY + fallback HTTPS сайта.
+Автоматическая установка Xray VLESS REALITY + fallback HTTPS сайта на ваш VPS.
 
 ---
 
@@ -30,7 +30,7 @@ chmod +x install.sh
 
 SITE_DOMAIN=your-domain.ru EMAIL=admin@your-domain.ru ./install.sh
 ```
-Если нет домена, можно использовать ip адрес. Почта любая, для сертификата для сайта.
+Если нет домена, можно использовать ip адрес этого VPS. Почта любая, для сертификата для fallback-сайта.
 
 ---
 
