@@ -2,15 +2,6 @@
 
 Автоматическая установка Xray VLESS REALITY + fallback HTTPS сайта.
 
-## Возможности
-
-- автоматическая генерация UUID;
-- автоматическая генерация REALITY ключей;
-- автоматическое получение Let's Encrypt сертификата;
-- HTTPS fallback сайт;
-- VLESS REALITY + Vision;
-- Docker deployment.
-
 ---
 
 # Требования
